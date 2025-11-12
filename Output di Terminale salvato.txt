@@ -1,0 +1,106 @@
+Last login: Wed Nov 12 13:49:55 on console
+marcogreco@MacBook-Air-di-Marco ~ % git --version
+git version 2.50.1 (Apple Git-155)
+marcogreco@MacBook-Air-di-Marco ~ % cd /Users/marcogreco/Fang-shuiAR
+marcogreco@MacBook-Air-di-Marco Fang-shuiAR % git init
+Initialized empty Git repository in /Users/marcogreco/Fang-ShuiAR/.git/
+marcogreco@MacBook-Air-di-Marco Fang-shuiAR % nano .gitignore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  UW PICO 5.09                               File: .gitignore                               Modified  
+
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+^G Get Help      ^O WriteOut      ^R Read File     ^Y Prev Pg       ^K Cut Text      ^C Cur Pos       
+^X Exit          ^J Justify       ^W Where is      ^V Next Pg       ^U UnCut Text    ^T To Spell     
