@@ -1,0 +1,5 @@
+/Users/marcogreco/Fang-ShuiAR/.utmp/RelWithDebInfo/4o6l1k1n/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/marcogreco/Fang-ShuiAR/.utmp/RelWithDebInfo/4o6l1k1n/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/marcogreco/Fang-ShuiAR/.utmp/RelWithDebInfo/4o6l1k1n/arm64-v8a/GameActivity/CMakeFiles/game.dir
+/Users/marcogreco/Fang-ShuiAR/.utmp/RelWithDebInfo/4o6l1k1n/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+/Users/marcogreco/Fang-ShuiAR/.utmp/RelWithDebInfo/4o6l1k1n/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
