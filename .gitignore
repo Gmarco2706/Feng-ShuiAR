@@ -6,3 +6,23 @@
 [Ll]ogs/
 [Mm]emoryCaptures/
 UserSettings/
+
+
+# Cartelle temporanee specifiche che ti davano errore
+.utmp/
+
+# File generati da Visual Studio / IDE
+.vs/
+.idea/
+*.csproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+
+# File di sistema operativo
+.DS_Store
+Thumbs.db
