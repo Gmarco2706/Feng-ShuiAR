@@ -1,3 +1,4 @@
+
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -6,12 +7,12 @@
 [Ll]ogs/
 [Mm]emoryCaptures/
 UserSettings/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+[Uu]ser[Ss]ettings/
 
-
-# Cartelle temporanee specifiche che ti davano errore
-.utmp/
-
-# File generati da Visual Studio / IDE
 .vs/
 .idea/
 *.csproj
@@ -23,6 +24,6 @@ UserSettings/
 *.pidb
 *.booproj
 
-# File di sistema operativo
+
 .DS_Store
 Thumbs.db
