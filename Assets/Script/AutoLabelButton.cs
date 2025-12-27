@@ -23,7 +23,7 @@ namespace Assets.Script
                 //utente clicca il bottone
                 myButton.onClick.AddListener(() =>
                 {
-                    //richiama il metodo che recupera l'etichetta del bottono selezionato
+                    //richiama il metodo che recupera l'etichetta in base al bottone selezionato
                     labelController.SelectLabel(buttonText.text);
                 });
             }

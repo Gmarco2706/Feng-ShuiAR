@@ -24,6 +24,11 @@ UserSettings/
 *.pidb
 *.booproj
 
+# Ignora cartelle di build IL2CPP e backup
+*_BackUpThisFolder_ButDontShipItWithYourGame/
+il2cppOutput/
+*.apk
+*.aab
 
 .DS_Store
 Thumbs.db

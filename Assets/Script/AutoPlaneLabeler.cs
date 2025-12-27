@@ -19,14 +19,18 @@ namespace Assets.Script
 
         static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
-        //dizionario per tenere traccia delle etichette già associate ai piani
-        private Dictionary<ARPlane,GameObject> planeLabels = new Dictionary<ARPlane, GameObject>();
-
-
         
+        private ARPlane lockedPlane = null;
+
+        private void Awake()
+        {
+            if (!arRaycastManager) arRaycastManager = GetComponent<ARRaycastManager>();
+            if (!arPlaneManager) arPlaneManager = GetComponent<ARPlaneManager>();
+        }
+
         void Update()
         {
-            if (Input.touchCount==0)
+            if (Input.touchCount == 0)
                 return;
 
             Touch touch = Input.GetTouch(0);
@@ -42,17 +46,32 @@ namespace Assets.Script
                 ARRaycastHit hit = hits[0];
                 ARPlane aRPlane = arPlaneManager.GetPlane(hit.trackableId);
 
-                //controllo se il piano rilevato è già stato memorizzato nel dizionario e dunque etichettato
-                if(!planeLabels.ContainsKey(aRPlane))
+                if (lockedPlane == null)
                 {
-                    //viene assegnata l'etichetta al nuovo piano rilevato
-                    CreateLabelOnPlane(aRPlane, hit.pose);
+                    // Il primo piano che tocchi diventa il principale
+                    lockedPlane = aRPlane;
 
+                    // Vengono nascosti tutti gli altri piani
+                    HideOtherPlanes(lockedPlane);
+
+                    // Creiamo la prima etichetta
+                    CreateLabelOnPlane(lockedPlane, hit.pose);
                 }
+
+                //controllo se il piano rilevato è quello corrente
                 else
                 {
-                    //opzionalmente, si potrebbe aggiornare la posizione dell'etichetta esistente
-                    Debug.Log("Piano già etichettato.");
+                    // Controlliamo: stiamo toccando PROPRIO quel piano lì?
+                    if (aRPlane == lockedPlane)
+                    {
+                        // SI: Allora permettiamo di aggiungere altre etichette
+                        CreateLabelOnPlane(lockedPlane, hit.pose);
+                    }
+                    else
+                    {
+                        // NO: Stiamo toccando un altro piano (es. un muro), lo ignoriamo.
+                        Debug.Log("Tocco ignorato: stiamo lavorando solo sul piano bloccato.");
+                    }
                 }
             }
         }
@@ -61,7 +80,6 @@ namespace Assets.Script
         {
             GameObject label = Instantiate(labelPrefab, pose.position, pose.rotation);
             
-            planeLabels.Add(plane, label);
         }
 
         //funzione per verificare se il tocco è sopra un bottone del menu UI
@@ -73,5 +91,16 @@ namespace Assets.Script
             EventSystem.current.RaycastAll(eventData, results);
             return results.Count > 0;
         }
-    }
-}
+
+        //funzione che disabilita la rilevazione di altri piani 
+        void HideOtherPlanes(ARPlane keeper)
+        {
+            foreach (var plane in arPlaneManager.trackables)
+            {
+                if (plane != keeper)
+                {
+                    plane.gameObject.SetActive(false);
+                }
+            }
+        }
+}   }
