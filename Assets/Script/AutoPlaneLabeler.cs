@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 
 namespace Assets.Script
@@ -20,7 +21,7 @@ namespace Assets.Script
         static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
         
-        private ARPlane lockedPlane = null;
+        private float? lockedPlane = null;
 
         private void Awake()
         {
@@ -38,7 +39,7 @@ namespace Assets.Script
             if (IsPointerOverUI(touch))
                 return;
 
-            if (touch.phase == TouchPhase.Began) return;
+            if (touch.phase != TouchPhase.Began) return;
 
 
             if (arRaycastManager.Raycast(touch.position, hits, UnityEngine.XR.ARSubsystems.TrackableType.PlaneWithinPolygon))
@@ -48,35 +49,38 @@ namespace Assets.Script
 
                 if (lockedPlane == null)
                 {
-                    // Il primo piano che tocchi diventa il principale
-                    lockedPlane = aRPlane;
 
-                    // Vengono nascosti tutti gli altri piani
-                    HideOtherPlanes(lockedPlane);
+                    // Il primo piano che tocchi diventa il principale
+                    lockedPlane = aRPlane.transform.position.y;
+
+
+                   
 
                     // Creiamo la prima etichetta
-                    CreateLabelOnPlane(lockedPlane, hit.pose);
+                    CreateLabelOnPlane(hit.pose);
                 }
 
                 //controllo se il piano rilevato è quello corrente
                 else
                 {
-                    // Controlliamo: stiamo toccando PROPRIO quel piano lì?
-                    if (aRPlane == lockedPlane)
+                    float currentY = aRPlane.transform.position.y;
+                    float differenza = Mathf.Abs(currentY - lockedPlane.Value);
+                    // Controlliamo se il nuovo piano rispetta l'altezza del piano bloccato
+                    if (differenza<0.15f)
                     {
                         // SI: Allora permettiamo di aggiungere altre etichette
-                        CreateLabelOnPlane(lockedPlane, hit.pose);
+                        CreateLabelOnPlane( hit.pose);
                     }
                     else
                     {
-                        // NO: Stiamo toccando un altro piano (es. un muro), lo ignoriamo.
-                        Debug.Log("Tocco ignorato: stiamo lavorando solo sul piano bloccato.");
+                        // NO: Stiamo toccando un piano a un'altezza diversa, ignoriamo il tocco
+                        Debug.Log("Tocco ignorato: stiamo lavorando solo sul pavimento");
                     }
                 }
             }
         }
 
-        void CreateLabelOnPlane(ARPlane plane, Pose pose)
+        void CreateLabelOnPlane( Pose pose)
         {
             GameObject label = Instantiate(labelPrefab, pose.position, pose.rotation);
             
@@ -103,4 +107,5 @@ namespace Assets.Script
                 }
             }
         }
+
 }   }
