@@ -1,36 +1,44 @@
-﻿using System.Collections;
-using TMPro;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
+using TMPro;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Assets.Script
+public class PlaneLabelController : MonoBehaviour
 {
-    //permette di mostrare il piano etichettato dopo la selezione dal menù
-    public class PlaneLabelController : MonoBehaviour
+    [Header("Label Settings")]
+    [SerializeField] GameObject labelPrefab;  
+    [SerializeField] float labelHeightOffset = 0.05f;
+    [SerializeField] Color floorLabelColor = Color.green;
+    [SerializeField] Color touchedLabelColor = Color.yellow;
+
+    private GameObject currentCarpetLabel;
+
+
+    public void LabelCarpet(HashSet<ARPlane> validPlanes, string labelText)
     {
+        // Rimuovi label precedente
+        if (currentCarpetLabel != null)
+            Destroy(currentCarpetLabel);
 
-        [SerializeField] GameObject buttonsPanel;
+        if (validPlanes.Count == 0 || labelPrefab == null) return;
 
+        //Cerca il centro della mesh del piano
+        Vector3 carpetCenter = validPlanes.Aggregate(Vector3.zero, (sum, plane) => sum + plane.transform.position) / validPlanes.Count;
+        carpetCenter.y += labelHeightOffset;
 
-        [SerializeField] TextMeshProUGUI displayLabel;
-        // Use this for initialization
-
-        //utile per leggere le etichette da altri script
-        public string CurrentLabel { get; private set; }= "untagged";
-        void Start()
-        {
-            buttonsPanel.SetActive(true);
-            displayLabel.text = "";
-        }
-
-        public void SelectLabel(string textButton)
-        {
-            CurrentLabel = textButton;
-
-            displayLabel.text = textButton;
-
-            buttonsPanel.SetActive(false);
-        }
+        //Crea la label al centro
+        currentCarpetLabel = Instantiate(labelPrefab, carpetCenter, Quaternion.LookRotation(Camera.main.transform.forward));
         
+        TextMeshPro textComp = currentCarpetLabel.GetComponentInChildren<TextMeshPro>();
+        if (textComp != null)
+        {
+            textComp.text = $"{labelText}\n({validPlanes.Count} piani)";
+            textComp.fontSize = 3f;
+            textComp.color = labelText.Contains("Floor") ? floorLabelColor : touchedLabelColor;
+            textComp.alignment = TextAlignmentOptions.Center;
+        }
 
+        Debug.Log($"Label tappeto '{labelText}' → {carpetCenter}");
     }
 }
