@@ -734,6 +734,10 @@ GameObject:
   - component: {fileID: 1921539026}
   - component: {fileID: 1921539030}
   - component: {fileID: 1921539029}
+  - component: {fileID: 1921539035}
+  - component: {fileID: 1921539034}
+  - component: {fileID: 1921539033}
+  - component: {fileID: 1921539032}
   - component: {fileID: 1921539031}
   m_Layer: 0
   m_Name: XR Origin
@@ -833,12 +837,74 @@ MonoBehaviour:
   m_GameObject: {fileID: 1921539025}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab487380d4a55694aba85c0ec23d96ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 43cdbb716a6204591b7f8e79efdb8e34, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Assets.Script.AutoPlaneLabeler
-  arRaycastManager: {fileID: 1921539030}
-  arPlaneManager: {fileID: 1921539026}
-  labelPrefab: {fileID: 3459472154366162766, guid: 59d0029e64abe0646aa338504b7196ca, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Script.Utils.TapDetector
+  arRaycastManager: {fileID: 0}
+  aRPlaneManager: {fileID: 0}
+--- !u!114 &1921539032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921539025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c27e6d1aaf4b4e43b3e924f004811b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlaneTapPlacingTry
+  raycastManager: {fileID: 0}
+  planeManager: {fileID: 0}
+  placedPrefab: {fileID: 0}
+--- !u!114 &1921539033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921539025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 486eec4e0c7354a45a066f52160d373c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlaneLabelController
+  labelPrefab: {fileID: 553932518173072438, guid: a1449402ff21c4a548a88761a122e439, type: 3}
+  labelHeightOffset: 0.05
+  floorLabelColor: {r: 0, g: 1, b: 0, a: 1}
+  touchedLabelColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+--- !u!114 &1921539034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921539025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11c6c3308041948e0976a071525d7151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Script.Utils.PlaneHeightChecker
+  maxHeightDifference: 0.1
+--- !u!114 &1921539035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921539025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a425990240ce4ab59180a203b07aede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ARFloorManager
+  aRPlaneManager: {fileID: 0}
+  heightChecker: {fileID: 0}
+  labelController: {fileID: 0}
+  transparencyAmount: 0.3
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,61 +1,74 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using System.Collections.Generic;
-using System.Numerics;
+using System;
 
-
+// RIMUOVI: using System.Numerics;  ← PROBLEMA QUI
+using UnityEngine.InputSystem;
 
 namespace Assets.Script.Utils
 {
-public class TapDetector : MonoBehaviour
-{
-    [Header("Riferimenti AR (auto-find se null)")]
-    [SerializeField] ARRaycastManager arRaycastManager;
-    [SerializeField] ARPlaneManager aRPlaneManager;
-
-    static List<ARRaycastHit> hits = new List<ARRaycastHit>();
-
-    public static event Action<UnityEngine.Vector3, ARPlane> OnTapOnPlaneDetected;
-    public static event Action<UnityEngine.Vector3> OnTapWorldDetected;
-
-        [Obsolete]
-        private void Awake()
+    public class TapDetector : MonoBehaviour
     {
-        if (arRaycastManager == null)
-            arRaycastManager = FindObjectOfType<ARRaycastManager>();
-        if (aRPlaneManager == null)
-            aRPlaneManager = FindObjectOfType<ARPlaneManager>();
-    }
-    void Update()
+        [Header("Riferimenti AR")]
+        [SerializeField] ARRaycastManager arRaycastManager;
+        [SerializeField] ARPlaneManager aRPlaneManager;
+
+        static List<ARRaycastHit> hits = new List<ARRaycastHit>();
+
+        public static event Action<Vector3, ARPlane> OnTapOnPlaneDetected;  // Unity Vector3
+        public static event Action<Vector3> OnTapWorldDetected;
+
+        void Awake()
         {
-            if (Input.touchCount == 0) return;
+            if (arRaycastManager == null)
+            arRaycastManager = FindFirstObjectByType<ARRaycastManager>();
 
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase != TouchPhase.Began) return;
+        if (aRPlaneManager == null)
+            aRPlaneManager = FindFirstObjectByType<ARPlaneManager>();
+        }
 
-            if (IsPointerOverUI(touch.position)) return;
+        void Update()
+        {
+            Vector2 screenPos = Vector2.zero;
 
-            // Raycast su PIANI AR
-            if (arRaycastManager.Raycast(touch.position, hits, TrackableType.PlaneWithinPolygon))
+            if (Touchscreen.current?.primaryTouch.press.wasPressedThisFrame == true)
             {
-                Pose pose = hits[0].pose;
-                ARPlane plane = aRPlaneManager.GetPlane(hits[0].trackableId);
-                
-                OnTapOnPlaneDetected?.Invoke(pose.position, plane);
+                screenPos = Touchscreen.current.primaryTouch.position.ReadValue();
+                ProcessTap(screenPos);
             }
-            else
+            else if (Mouse.current?.leftButton.wasPressedThisFrame == true)
             {
-                // Raycast qualsiasi superficie (fallback)
-                if (arRaycastManager.Raycast(touch.position, hits, TrackableType.AllTypes))
-                {
-                    OnTapWorldDetected?.Invoke(hits[0].pose.position);
-                }
+                screenPos = Mouse.current.position.ReadValue();
+                ProcessTap(screenPos);
             }
         }
-    bool IsPointerOverUI(UnityEngine.Vector2 screenPosition)
+
+        void ProcessTap(Vector2 screenPos)
+        {
+            Debug.Log($"TAP S10: {screenPos}");
+
+            if (IsPointerOverUI(screenPos)) return;
+
+            if (arRaycastManager.Raycast(screenPos, hits, TrackableType.PlaneWithinPolygon))
+            {
+                var pose = hits[0].pose;
+                var plane = hits[0].trackable as ARPlane;
+                if (plane != null)
+                {
+                    OnTapOnPlaneDetected?.Invoke(pose.position, plane);
+                    Debug.Log("TAP PLANE OK!");
+                }
+            }
+            else if (arRaycastManager.Raycast(screenPos, hits, TrackableType.AllTypes))
+            {
+                OnTapWorldDetected?.Invoke(hits[0].pose.position);
+            }
+        }
+
+        bool IsPointerOverUI(Vector2 screenPosition)
         {
             PointerEventData eventData = new PointerEventData(EventSystem.current);
             eventData.position = screenPosition;
@@ -63,5 +76,5 @@ public class TapDetector : MonoBehaviour
             EventSystem.current.RaycastAll(eventData, results);
             return results.Count > 0;
         }
-}
+    }
 }
