@@ -1,4 +1,4 @@
-# This .gitignore file should be placed at the root of your Unity project directory
+## This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
@@ -96,4 +96,9 @@ InitTestScene*.unity*
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
 
 # Auto-generated scenes by play mode tests
-/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*
+
+# --- AGGIUNTE SPECIFICHE PER IL TUO PROGETTO ---
+# Queste cartelle erano "untracked" nel tuo status precedente
+*_BackUpThisFolder_ButDontShipItWithYourGame/
+*_BurstDebugInformation_DoNotShip/.unity*
