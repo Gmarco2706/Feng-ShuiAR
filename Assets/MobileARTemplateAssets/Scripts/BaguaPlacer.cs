@@ -1,17 +1,13 @@
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
-using System.Linq;
-using UnityEngine.Animations;
-using System.Threading.Tasks;
 
 public class BaguaPlacer : MonoBehaviour
 {
     [SerializeField] ARPlaneManager planeManager;
     [SerializeField] ARAnchorManager anchorManager;
     [SerializeField] GameObject baguaPrefab;
-    [SerializeField] float canvasWidthPx = 600f;
-    [SerializeField] float baguaHeightPx = 600f;
+
     [SerializeField] float fitMargin = 0.95f;
     [SerializeField] float yOffset = 0.01f;
 
@@ -22,75 +18,97 @@ public class BaguaPlacer : MonoBehaviour
 
     void Start()
     {
-        planeManager ??= FindFirstObjectByType<ARPlaneManager>();
-        anchorManager ??= FindFirstObjectByType<ARAnchorManager>();
+        if (planeManager == null) planeManager = FindFirstObjectByType<ARPlaneManager>();
+        if (anchorManager == null) anchorManager = FindFirstObjectByType<ARAnchorManager>();
+
         Input.location.Start();
         Input.compass.enabled = true;
     }
 
     public void applyBagua()
     {
-        Debug.Log("metodo avviato");
-        ARPlane bestPlane = null;
-        float maxScore = 0f;
+        Debug.Log("INIZIA CODICE BAGUA!!!!!!!!!!!!!!!");
 
-        if (planeManager == null)
-            planeManager = FindFirstObjectByType<ARPlaneManager>();
-            Debug.Log("plane manager trovato");
-
-        if (anchorManager == null)
-            anchorManager = FindFirstObjectByType<ARAnchorManager>();
-            Debug.Log("anchor manager trovato");
+        if (planeManager == null) planeManager = FindFirstObjectByType<ARPlaneManager>();
+        if (anchorManager == null) anchorManager = FindFirstObjectByType<ARAnchorManager>();
 
         if (planeManager == null || planeManager.trackables.count == 0)
+        {
+            Debug.Log("Nessun piano trovato.");
             return;
+        }
 
-        Transform cam = Camera.main.transform;
+        if (anchorManager.descriptor == null || !anchorManager.descriptor.supportsTrackableAttachments)
+        {
+            Debug.LogError("AttachAnchor non supportato (supportsTrackableAttachments = false).");
+            return;
+        }
 
-        // Scegli il piano orizzontale più grande davanti alla camera
+        Camera mainCam = Camera.main;
+        if (mainCam == null)
+        {
+            Debug.LogError("Camera.main non trovata.");
+            return;
+        }
+        Transform cam = mainCam.transform;
+
+        // 1) Trova il piano orizzontale più grande davanti alla camera
+        ARPlane bestPlane = null;
+        float bestArea = 0f;
+
         foreach (var t in planeManager.trackables)
         {
-            if (t is ARPlane p && p.alignment == PlaneAlignment.HorizontalUp)
+            ARPlane p = t as ARPlane;
+            if (p == null) continue;
+            if (p.alignment != PlaneAlignment.HorizontalUp) continue;
+
+            // davanti alla camera?
+            Vector3 toPlane = (p.transform.position - cam.position);
+            float inFront = Vector3.Dot(cam.forward, toPlane.normalized);
+            if (inFront <= 0f) continue;
+
+            float area = p.size.x * p.size.y; // metri^2 [web:62]
+            if (area > bestArea)
             {
-                float area = p.size.x * p.size.y;
-
-                Vector3 toPlane = p.center - cam.position;
-                float inFront = Vector3.Dot(cam.forward, toPlane.normalized);
-
-                if (inFront <= 0f) continue;
-
-                float score = area / (toPlane.sqrMagnitude + 0.01f);
-                if (score > maxScore)
-                {
-                    maxScore = score;
-                    bestPlane = p;
-                }
+                bestArea = area;
+                bestPlane = p;
             }
         }
-       
+
         if (bestPlane == null)
+        {
+            Debug.Log("Nessun piano orizzontale valido davanti alla camera.");
             return;
+        }
 
+        // 2) Distruggi anchor precedente
         if (baguaAnchor != null)
+        {
             Destroy(baguaAnchor.gameObject);
+            baguaAnchor = null;
+        }
 
-        if (anchorManager == null || anchorManager.descriptor == null || !anchorManager.descriptor.supportsTrackableAttachments)
-            return;
+        // 3) Pose stabile sul centro del piano scelto
+        Vector3 planePos = bestPlane.transform.position;
+        Pose pose = new Pose(planePos + Vector3.up * yOffset, Quaternion.identity);
 
-        Pose pose = new Pose(bestPlane.center + Vector3.up * yOffset, bestPlane.transform.rotation);
         baguaAnchor = anchorManager.AttachAnchor(bestPlane, pose);
-
         if (baguaAnchor == null)
+        {
+            Debug.LogError("AttachAnchor ha restituito null.");
             return;
+        }
 
-        if (baguaInstance == null)
-            baguaInstance = Instantiate(baguaPrefab);
-        
-        
-        baguaInstance.transform.SetParent(baguaAnchor.transform, false);
+        // 4) Ricrea sempre l'istanza
+        if (baguaInstance != null) Destroy(baguaInstance);
+        baguaInstance = Instantiate(baguaPrefab, baguaAnchor.transform);
+        baguaInstance.SetActive(true);
 
+        // Debug utili
+        Debug.Log($"BEST plane size={bestPlane.size} area={bestArea} planePos={planePos}");
+        Debug.Log($"bagua worldPos={baguaInstance.transform.position} activeInHierarchy={baguaInstance.activeInHierarchy}");
 
-        //if per fare in modo che la mappa rimanga fissa e che non giri con il nord quando l'utente rotea irl
+        // 5) Allinea una sola volta al nord
         if (!alignedToNorth)
         {
             float heading = Input.compass.trueHeading;
@@ -98,21 +116,15 @@ public class BaguaPlacer : MonoBehaviour
             alignedToNorth = true;
         }
 
-        
-
+        // 6) Scala per adattarsi al piano più grande
         float targetSize = Mathf.Min(bestPlane.size.x, bestPlane.size.y) * fitMargin; // metri
-        float planeUnitySize = 10f;
+        float planeUnitySize = 10f; // dimensione "nativa" del tuo prefab in Unity units
         float scale = targetSize / planeUnitySize;
-
         baguaInstance.transform.localScale = new Vector3(scale, 1f, scale);
-        
 
         var grid = baguaInstance.GetComponentInChildren<BaguaGrid>(true);
-        if (grid != null)
-            grid.SetupGridColliders();
-        else
-            Debug.LogError("BaguaGrid non trovato dentro baguaPrefab/baguaInstance.");
+        if (grid != null) grid.SetupGridColliders();
 
-        Debug.Log($"Bagua su piano size {bestPlane.size}, targetSize {targetSize}, scale {scale}, pos {baguaInstance.transform.position}");
+        Debug.Log("FINE CODICE BAGUA!!!!!!!!!!!!!!!");
     }
 }
