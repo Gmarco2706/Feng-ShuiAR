@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
@@ -21,6 +22,19 @@ namespace UnityEngine.XR.Templates.AR
         [SerializeField]
         Button m_ButtonZone;
 
+        [SerializeField]
+        Button m_ButtonBagua;
+
+
+
+        
+       
+      
+        [SerializeField]
+        private GameObject prefabBaguaPlacer;
+
+        [SerializeField] 
+        //private Script m_BaguaLogicScript;
         /// <summary>
         /// Button that opens the create menu.
         /// </summary>
@@ -31,12 +45,21 @@ namespace UnityEngine.XR.Templates.AR
             
         }
 
+      
         public Button buttonZone
         {
             get => m_ButtonZone;
             set => m_ButtonZone = value;
         }
 
+       
+        public Button buttonBagua
+        {
+            get => m_ButtonBagua;
+            set => m_ButtonBagua = value;
+        }
+
+        
         [SerializeField]
         [Tooltip("Button that deletes a selected object.")]
         Button m_DeleteButton;
@@ -244,6 +267,7 @@ namespace UnityEngine.XR.Templates.AR
         bool m_IsPointerOverUI;
         bool m_ShowObjectMenu;
         bool m_ShowObjectMenuZone;
+        bool m_ShowBagua;
         bool m_ShowOptionsModal;
         bool m_VisualizePlanes = true;
         bool m_ShowDebugMenu;
@@ -262,6 +286,7 @@ namespace UnityEngine.XR.Templates.AR
         {
             m_CreateButton.onClick.AddListener(ShowMenu);
             m_ButtonZone.onClick.AddListener(ShowMenuZone); 
+           // m_ButtonBagua.onClick.AddListener(showBagua);
             m_CancelButton.onClick.AddListener(HideMenu);
             m_CancelButtonZone.onClick.AddListener(HideMenuZone);
             m_DeleteButton.onClick.AddListener(DeleteFocusedObject);
@@ -345,6 +370,7 @@ namespace UnityEngine.XR.Templates.AR
                 m_IsPointerOverUI = false;
                 m_CreateButton.gameObject.SetActive(true);
                 m_ButtonZone.gameObject.SetActive(true);
+                m_ButtonBagua.gameObject.SetActive(true);
                 m_DeleteButton.gameObject.SetActive(m_InteractionGroup?.focusInteractable != null);
             }
 
@@ -406,6 +432,23 @@ namespace UnityEngine.XR.Templates.AR
 
         }
 
+        /*
+        public void showBagua()
+        {
+            
+       
+            prefabBaguaPlacer.SetActive(true);
+
+            if (m_BaguaLogicScript != null)
+            {
+                m_BaguaLogicScript.applyBagua();
+                m_ShowBagua=true;
+            }
+
+
+
+        }
+        */
         /// <summary>
         /// Shows or hides the menu modal when the options button is clicked.
         /// </summary>
@@ -487,6 +530,7 @@ namespace UnityEngine.XR.Templates.AR
             AdjustARDebugMenuPosition();
         }
 
+        
 
         public void HideMenuZone()
         {

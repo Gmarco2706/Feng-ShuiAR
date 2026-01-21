@@ -24166,6 +24166,7 @@ MonoBehaviour:
   m_OptionsButton: {fileID: 1520419809}
   m_CreateButton: {fileID: 1059051467}
   m_Buttonzone: {fileID: 1602431217}
+  m_BaguaButton: {fileID: 899946958}
   m_MenuManager: {fileID: 2099970472}
 --- !u!114 &2099970472
 MonoBehaviour:
@@ -24181,6 +24182,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CreateButton: {fileID: 1059051469}
   m_ButtonZone: {fileID: 1602431219}
+  m_ButtonBagua: {fileID: 899946960}
+  prefabBaguaPlacer: {fileID: 493731601}
   m_DeleteButton: {fileID: 425410338}
   m_ObjectMenu: {fileID: 72989974}
   m_ObjectMenuZone: {fileID: 1962372733}

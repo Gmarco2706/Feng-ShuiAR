@@ -30,14 +30,17 @@ public class BaguaPlacer : MonoBehaviour
 
     public void applyBagua()
     {
+        Debug.Log("metodo avviato");
         ARPlane bestPlane = null;
         float maxScore = 0f;
 
         if (planeManager == null)
             planeManager = FindFirstObjectByType<ARPlaneManager>();
+            Debug.Log("plane manager trovato");
 
         if (anchorManager == null)
             anchorManager = FindFirstObjectByType<ARAnchorManager>();
+            Debug.Log("anchor manager trovato");
 
         if (planeManager == null || planeManager.trackables.count == 0)
             return;
@@ -64,7 +67,7 @@ public class BaguaPlacer : MonoBehaviour
                 }
             }
         }
-
+       
         if (bestPlane == null)
             return;
 
@@ -82,8 +85,10 @@ public class BaguaPlacer : MonoBehaviour
 
         if (baguaInstance == null)
             baguaInstance = Instantiate(baguaPrefab);
-
+        
+        
         baguaInstance.transform.SetParent(baguaAnchor.transform, false);
+
 
         //if per fare in modo che la mappa rimanga fissa e che non giri con il nord quando l'utente rotea irl
         if (!alignedToNorth)
@@ -93,11 +98,14 @@ public class BaguaPlacer : MonoBehaviour
             alignedToNorth = true;
         }
 
+        
+
         float targetSize = Mathf.Min(bestPlane.size.x, bestPlane.size.y) * fitMargin; // metri
         float planeUnitySize = 10f;
         float scale = targetSize / planeUnitySize;
 
         baguaInstance.transform.localScale = new Vector3(scale, 1f, scale);
+        
 
         var grid = baguaInstance.GetComponentInChildren<BaguaGrid>(true);
         if (grid != null)
