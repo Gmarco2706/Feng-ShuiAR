@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3009208180341717186}
   - component: {fileID: 8032850544416119192}
   - component: {fileID: 2203151615280226304}
-  - component: {fileID: 1983111721075540587}
   m_Layer: 0
   m_Name: BaguaMap
   m_TagString: Untagged
@@ -91,28 +90,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1983111721075540587
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3797073520200391}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4327058851490115530
 GameObject:
   m_ObjectHideFlags: 0

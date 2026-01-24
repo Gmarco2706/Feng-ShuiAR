@@ -13,7 +13,10 @@ GameObject:
   - component: {fileID: 8761685415694733111}
   - component: {fileID: 8249339985099111048}
   - component: {fileID: 3783519447629479540}
-  m_Layer: 5
+  - component: {fileID: 126837690697665637}
+  - component: {fileID: 985493540276258603}
+  - component: {fileID: -648493887609529042}
+  m_Layer: 0
   m_Name: Etichetta_OggettoViola
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,6 +118,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950d95eda49cf86458f6794fde6c5fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.MobileARTemplateAssets.Scripts.PositionCamera
+--- !u!65 &126837690697665637
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151245740660818871}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 400, y: 2000, z: 100}
+  m_Center: {x: 0, y: -1000, z: 0}
+--- !u!54 &985493540276258603
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151245740660818871}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &-648493887609529042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151245740660818871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1cb1281d2833d54b854034cdf139410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.MobileARTemplateAssets.Scripts.BaguaLabelDetector
 --- !u!1 &5677538405310929631
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +189,7 @@ GameObject:
   - component: {fileID: 4431758621054264564}
   - component: {fileID: 6466920337149530306}
   - component: {fileID: 3859728692275368393}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +325,7 @@ GameObject:
   - component: {fileID: 3632604792922562039}
   - component: {fileID: 8189588268593707350}
   - component: {fileID: 2916721065419820742}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

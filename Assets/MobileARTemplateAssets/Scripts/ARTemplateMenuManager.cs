@@ -22,23 +22,14 @@ namespace UnityEngine.XR.Templates.AR
         [SerializeField]
         Button m_ButtonZone;
 
-        [SerializeField]
-        Button m_ButtonBagua;
-
-
-
         
-       
-      
-        [SerializeField]
-        private GameObject prefabBaguaPlacer;
 
-        [SerializeField] 
+
         //private Script m_BaguaLogicScript;
         /// <summary>
         /// Button that opens the create menu.
         /// </summary>
-        public Button createButton
+        public Button CreateButton
         {
             get => m_CreateButton;
             set => m_CreateButton = value;
@@ -46,18 +37,14 @@ namespace UnityEngine.XR.Templates.AR
         }
 
       
-        public Button buttonZone
+        public Button ButtonZone
         {
             get => m_ButtonZone;
             set => m_ButtonZone = value;
         }
 
        
-        public Button buttonBagua
-        {
-            get => m_ButtonBagua;
-            set => m_ButtonBagua = value;
-        }
+       
 
         
         [SerializeField]
@@ -67,7 +54,7 @@ namespace UnityEngine.XR.Templates.AR
         /// <summary>
         /// Button that deletes a selected object.
         /// </summary>
-        public Button deleteButton
+        public Button DeleteButton
         {
             get => m_DeleteButton;
             set => m_DeleteButton = value;
@@ -82,13 +69,13 @@ namespace UnityEngine.XR.Templates.AR
         /// <summary>
         /// The menu with all the creatable objects.
         /// </summary>
-        public GameObject objectMenu
+        public GameObject ObjectMenu
         {
             get => m_ObjectMenu;
             set => m_ObjectMenu = value;
         }
 
-        public GameObject objectMenuZone
+        public GameObject ObjectMenuZone
         {
             get => m_ObjectMenuZone;
             set => m_ObjectMenuZone = value;
@@ -98,13 +85,22 @@ namespace UnityEngine.XR.Templates.AR
         [Tooltip("The modal with debug options.")]
         GameObject m_ModalMenu;
 
+        [SerializeField]
+        GameObject m_ModalMenuBagua;
+
         /// <summary>
         /// The modal with debug options.
         /// </summary>
-        public GameObject modalMenu
+        public GameObject ModalMenu
         {
             get => m_ModalMenu;
             set => m_ModalMenu = value;
+        }
+
+        public GameObject ModalMenuBagua
+        {
+            get => m_ModalMenuBagua;
+            set => m_ModalMenuBagua = value;
         }
 
         [SerializeField]
@@ -115,12 +111,12 @@ namespace UnityEngine.XR.Templates.AR
         /// <summary>
         /// The animator for the object creation menu.
         /// </summary>
-        public Animator objectMenuAnimator
+        public Animator ObjectMenuAnimator
         {
             get => m_ObjectMenuAnimator;
             set => m_ObjectMenuAnimator = value;
         }
-        public Animator objectMenuAnimatorZone
+        public Animator ObjectMenuAnimatorZone
         {
             get => m_ObjectMenuAnimatorZone;
             set => m_ObjectMenuAnimatorZone = value;
@@ -134,7 +130,7 @@ namespace UnityEngine.XR.Templates.AR
         /// <summary>
         /// The object spawner component in charge of spawning new objects.
         /// </summary>
-        public ObjectSpawner objectSpawner
+        public ObjectSpawner ObjectSpawner
         {
             get => m_ObjectSpawner;
             set => m_ObjectSpawner = value;
@@ -149,17 +145,25 @@ namespace UnityEngine.XR.Templates.AR
         /// <summary>
         /// Button that closes the object creation menu.
         /// </summary>
-        public Button cancelButton
+        public Button CancelButton
         {
             get => m_CancelButton;
             set => m_CancelButton = value;
         }
-        public Button cancelButtonZone
+        public Button CancelButtonZone
         {
             get => m_CancelButtonZone;
             set => m_CancelButtonZone = value;
         }
 
+        [SerializeField]
+        Button m_OptionsButtonBagua;
+
+        public Button OptionsButtonBagua
+        {
+            get => m_OptionsButtonBagua;
+            set => m_OptionsButtonBagua = value;
+        }
         [SerializeField]
         [Tooltip("The interaction group for the AR demo scene.")]
         XRInteractionGroup m_InteractionGroup;
@@ -177,6 +181,10 @@ namespace UnityEngine.XR.Templates.AR
         [Tooltip("The slider for activating plane debug visuals.")]
         DebugSlider m_DebugPlaneSlider;
 
+        [SerializeField]
+
+        DebugSlider m_BaguaSlider;
+
         /// <summary>
         /// The slider for activating plane debug visuals.
         /// </summary>
@@ -184,6 +192,12 @@ namespace UnityEngine.XR.Templates.AR
         {
             get => m_DebugPlaneSlider;
             set => m_DebugPlaneSlider = value;
+        }
+
+        public DebugSlider BaguaSlider
+        {
+            get => m_BaguaSlider;
+            set => m_BaguaSlider = value;
         }
 
         [SerializeField]
@@ -239,6 +253,14 @@ namespace UnityEngine.XR.Templates.AR
         }
 
         [SerializeField]
+        private BaguaPlacer script;
+
+        public BaguaPlacer Script
+        {
+            get => script;
+            set => script = value;
+        }
+        [SerializeField]
         XRInputValueReader<Vector2> m_TapStartPositionInput = new XRInputValueReader<Vector2>("Tap Start Position");
 
         /// <summary>
@@ -267,9 +289,11 @@ namespace UnityEngine.XR.Templates.AR
         bool m_IsPointerOverUI;
         bool m_ShowObjectMenu;
         bool m_ShowObjectMenuZone;
-        bool m_ShowBagua;
         bool m_ShowOptionsModal;
+        bool m_ShowOptionsModalBagua;
+
         bool m_VisualizePlanes = true;
+        bool m_VisualizeBagua = false;
         bool m_ShowDebugMenu;
         bool m_InitializingDebugMenu;
         float m_DebugMenuPlanesButtonValue = 0f;
@@ -286,7 +310,6 @@ namespace UnityEngine.XR.Templates.AR
         {
             m_CreateButton.onClick.AddListener(ShowMenu);
             m_ButtonZone.onClick.AddListener(ShowMenuZone); 
-           // m_ButtonBagua.onClick.AddListener(showBagua);
             m_CancelButton.onClick.AddListener(HideMenu);
             m_CancelButtonZone.onClick.AddListener(HideMenuZone);
             m_DeleteButton.onClick.AddListener(DeleteFocusedObject);
@@ -299,6 +322,7 @@ namespace UnityEngine.XR.Templates.AR
         void OnDisable()
         {
             m_ShowObjectMenu = false;
+            m_ShowObjectMenuZone = false;
             m_CreateButton.onClick.RemoveListener(ShowMenu);
             m_CancelButton.onClick.RemoveListener(HideMenu);
             m_ButtonZone.onClick.RemoveListener(ShowMenu);
@@ -326,6 +350,7 @@ namespace UnityEngine.XR.Templates.AR
 
             m_DebugMenuSlider.value = m_ShowDebugMenu ? 1 : 0;
             m_DebugPlaneSlider.value = m_VisualizePlanes ? 1 : 0;
+            m_BaguaSlider.value = m_VisualizeBagua ? 1 : 0; 
         }
 
         /// <summary>
@@ -333,6 +358,7 @@ namespace UnityEngine.XR.Templates.AR
         /// </summary>
         void Update()
         {
+            m_IsPointerOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(-1);
             if (m_InitializingDebugMenu)
             {
                 m_ARDebugMenu.gameObject.SetActive(false);
@@ -351,6 +377,9 @@ namespace UnityEngine.XR.Templates.AR
 
                     if (m_ShowOptionsModal)
                         m_ModalMenu.SetActive(false);
+
+                    if (m_ShowOptionsModalBagua)
+                        m_ModalMenuBagua.SetActive(false);
                 }
 
                 if (m_ShowObjectMenu)
@@ -367,17 +396,14 @@ namespace UnityEngine.XR.Templates.AR
             else
             {
                 //se non vengono visualizzati i menù resettiamo lo stato di isPointerOverUI e mostriamo i bottoni
-                m_IsPointerOverUI = false;
+                
                 m_CreateButton.gameObject.SetActive(true);
                 m_ButtonZone.gameObject.SetActive(true);
-                m_ButtonBagua.gameObject.SetActive(true);
+                m_OptionsButtonBagua.gameObject.SetActive(true);
                 m_DeleteButton.gameObject.SetActive(m_InteractionGroup?.focusInteractable != null);
             }
 
-            if (!m_IsPointerOverUI && m_ShowOptionsModal)
-            {
-                m_IsPointerOverUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject(-1);
-            }
+            
         }
 
         /// <summary>
@@ -432,23 +458,8 @@ namespace UnityEngine.XR.Templates.AR
 
         }
 
-        /*
-        public void showBagua()
-        {
-            
        
-            prefabBaguaPlacer.SetActive(true);
-
-            if (m_BaguaLogicScript != null)
-            {
-                m_BaguaLogicScript.applyBagua();
-                m_ShowBagua=true;
-            }
-
-
-
-        }
-        */
+        
         /// <summary>
         /// Shows or hides the menu modal when the options button is clicked.
         /// </summary>
@@ -466,6 +477,21 @@ namespace UnityEngine.XR.Templates.AR
             }
         }
 
+        //metodo che gestisce la visualizzazione del menu bagua
+        public void ShowHideModalBagua()
+        {
+            if (m_ModalMenuBagua.activeSelf)
+            {
+                m_ShowOptionsModalBagua = false;
+                m_ModalMenuBagua.SetActive(false);
+            }
+            else
+            {
+                m_ShowOptionsModalBagua = true;
+                m_ModalMenuBagua.SetActive(true);
+            }
+        }
+
         /// <summary>
         /// Shows or hides the plane debug visuals.
         /// </summary>
@@ -476,6 +502,30 @@ namespace UnityEngine.XR.Templates.AR
             ChangePlaneVisibility(m_VisualizePlanes);
         }
 
+        //metodo per collegare lo slider del bottone alla visualizzazione del bagua
+        public void ShowHideBagua()
+        {
+            m_VisualizeBagua = !m_VisualizeBagua;
+            if (script == null)
+            {
+                Debug.LogError("riferimento allo script nullo");
+                return;
+            }
+            m_BaguaSlider.value = m_VisualizeBagua ? 1 : 0;
+            
+            if (m_VisualizeBagua)
+            {
+                //attiva bagua
+                script.applyBagua();
+            }
+            else
+            {
+                //disattiva bagua e resetta i parametri
+                m_VisualizeBagua = false;
+                
+                script.ResetBagua();
+            }
+        }
         /// <summary>
         /// Shows or hides the AR debug menu.
         /// </summary>

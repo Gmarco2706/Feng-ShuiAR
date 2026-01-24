@@ -11,6 +11,8 @@ public class BaguaPlacer : MonoBehaviour
     [SerializeField] float fitMargin = 0.95f;
     [SerializeField] float yOffset = 0.01f;
 
+    [SerializeField] float rotationOffset = 0f;
+
     bool alignedToNorth = false;
 
     GameObject baguaInstance;
@@ -21,8 +23,7 @@ public class BaguaPlacer : MonoBehaviour
         if (planeManager == null) planeManager = FindFirstObjectByType<ARPlaneManager>();
         if (anchorManager == null) anchorManager = FindFirstObjectByType<ARAnchorManager>();
 
-        Input.location.Start();
-        Input.compass.enabled = true;
+        
     }
 
     public void applyBagua()
@@ -111,20 +112,49 @@ public class BaguaPlacer : MonoBehaviour
         // 5) Allinea una sola volta al nord
         if (!alignedToNorth)
         {
-            float heading = Input.compass.trueHeading;
-            baguaInstance.transform.localRotation *= Quaternion.Euler(0f, -heading, 0f);
+            //Direzione in avanti della camera
+            Vector3 cameraForward=Camera.main.transform.forward;
+
+            cameraForward.y = 0f;
+            cameraForward.Normalize();
+
+            //definiamo una rotazione dello sguardo dell'utente mediante la camera
+            Quaternion lookRotation= Quaternion.LookRotation(cameraForward);
+
+
+            baguaInstance.transform.rotation= lookRotation;
+
+            baguaInstance.transform.Rotate(Vector3.up, rotationOffset);
             alignedToNorth = true;
         }
 
-        // 6) Scala per adattarsi al piano più grande
-        float targetSize = Mathf.Min(bestPlane.size.x, bestPlane.size.y) * fitMargin; // metri
-        float planeUnitySize = 10f; // dimensione "nativa" del tuo prefab in Unity units
-        float scale = targetSize / planeUnitySize;
-        baguaInstance.transform.localScale = new Vector3(scale, 1f, scale);
+        // 6) Scala per adattarsi al piano più grande anche in verticale calcolando la dimensione della mappa
+        float targetSizeX = bestPlane.size.x * fitMargin; // metri
+        float targetSizeZ = bestPlane.size.y * fitMargin; // metri
+        float planeUnitySize = 10f;                     // dimensione "nativa" del tuo prefab in Unity units
+        float scaleX = targetSizeX / planeUnitySize;
+        float scaleY= targetSizeZ / planeUnitySize;
+
+        //adatta la mappa al piano
+        baguaInstance.transform.localScale = new Vector3(scaleX, 1f, scaleY);
 
         var grid = baguaInstance.GetComponentInChildren<BaguaGrid>(true);
         if (grid != null) grid.SetupGridColliders();
 
         Debug.Log("FINE CODICE BAGUA!!!!!!!!!!!!!!!");
+    }
+
+    public void ResetBagua()
+    {
+        Destroy(baguaInstance);
+        baguaInstance = null;
+        if (baguaAnchor != null)
+        {
+            Destroy(baguaAnchor.gameObject);
+            baguaAnchor = null;
+        }
+        alignedToNorth = false;
+
+        Debug.Log("Bagua reset.");
     }
 }
