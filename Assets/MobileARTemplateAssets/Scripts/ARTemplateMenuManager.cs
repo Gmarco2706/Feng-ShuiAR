@@ -16,9 +16,7 @@ namespace UnityEngine.XR.Templates.AR
     /// </summary>
     public class ARTemplateMenuManager : MonoBehaviour
     {
-        [SerializeField]
-        [Tooltip("Button that opens the create menu.")]
-        Button m_CreateButton;
+        
         [SerializeField]
         Button m_ButtonZone;
 
@@ -29,13 +27,7 @@ namespace UnityEngine.XR.Templates.AR
         /// <summary>
         /// Button that opens the create menu.
         /// </summary>
-        public Button CreateButton
-        {
-            get => m_CreateButton;
-            set => m_CreateButton = value;
-            
-        }
-
+        
       
         public Button ButtonZone
         {
@@ -43,10 +35,16 @@ namespace UnityEngine.XR.Templates.AR
             set => m_ButtonZone = value;
         }
 
-       
-       
+        [SerializeField]
+        Button m_ButtonObject;
 
-        
+        public Button ButtonObject
+        {
+            get => m_ButtonObject;
+            set => m_ButtonObject = value;
+        }
+
+
         [SerializeField]
         [Tooltip("Button that deletes a selected object.")]
         Button m_DeleteButton;
@@ -63,8 +61,7 @@ namespace UnityEngine.XR.Templates.AR
         [SerializeField]
         [Tooltip("The menu with all the creatable objects.")]
         GameObject m_ObjectMenu;
-        [SerializeField]
-        GameObject m_ObjectMenuZone;
+        
 
         /// <summary>
         /// The menu with all the creatable objects.
@@ -74,6 +71,9 @@ namespace UnityEngine.XR.Templates.AR
             get => m_ObjectMenu;
             set => m_ObjectMenu = value;
         }
+
+        [SerializeField]
+        GameObject m_ObjectMenuZone;
 
         public GameObject ObjectMenuZone
         {
@@ -88,6 +88,9 @@ namespace UnityEngine.XR.Templates.AR
         [SerializeField]
         GameObject m_ModalMenuBagua;
 
+
+        [SerializeField]
+        GameObject m_ModalMenuObject;
         /// <summary>
         /// The modal with debug options.
         /// </summary>
@@ -102,6 +105,13 @@ namespace UnityEngine.XR.Templates.AR
             get => m_ModalMenuBagua;
             set => m_ModalMenuBagua = value;
         }
+
+        public GameObject ModalMenuObject
+        {
+            get => m_ModalMenuObject;
+            set => m_ModalMenuObject = value;
+        }
+
 
         [SerializeField]
         [Tooltip("The animator for the object creation menu.")]
@@ -164,6 +174,16 @@ namespace UnityEngine.XR.Templates.AR
             get => m_OptionsButtonBagua;
             set => m_OptionsButtonBagua = value;
         }
+
+        [SerializeField]
+        Button m_OptionsButtonObject;
+
+        public Button OptionsButtonObject
+        {
+            get => m_OptionsButtonObject;
+            set => m_OptionsButtonObject = value;
+        }
+
         [SerializeField]
         [Tooltip("The interaction group for the AR demo scene.")]
         XRInteractionGroup m_InteractionGroup;
@@ -291,6 +311,7 @@ namespace UnityEngine.XR.Templates.AR
         bool m_ShowObjectMenuZone;
         bool m_ShowOptionsModal;
         bool m_ShowOptionsModalBagua;
+        bool m_ShowOptionsModalObject;
 
         bool m_VisualizePlanes = true;
         bool m_VisualizeBagua = false;
@@ -308,8 +329,8 @@ namespace UnityEngine.XR.Templates.AR
         /// </summary>
         void OnEnable()
         {
-            m_CreateButton.onClick.AddListener(ShowMenu);
-            m_ButtonZone.onClick.AddListener(ShowMenuZone); 
+            m_ButtonObject.onClick.AddListener(ShowMenuZone);
+            m_ButtonZone.onClick.AddListener(ShowMenu); 
             m_CancelButton.onClick.AddListener(HideMenu);
             m_CancelButtonZone.onClick.AddListener(HideMenuZone);
             m_DeleteButton.onClick.AddListener(DeleteFocusedObject);
@@ -323,7 +344,7 @@ namespace UnityEngine.XR.Templates.AR
         {
             m_ShowObjectMenu = false;
             m_ShowObjectMenuZone = false;
-            m_CreateButton.onClick.RemoveListener(ShowMenu);
+            m_ButtonObject.onClick.RemoveListener(ShowMenu);
             m_CancelButton.onClick.RemoveListener(HideMenu);
             m_ButtonZone.onClick.RemoveListener(ShowMenu);
             m_CancelButtonZone.onClick.RemoveListener(HideMenu);
@@ -365,7 +386,7 @@ namespace UnityEngine.XR.Templates.AR
                 m_InitializingDebugMenu = false;
             }
 
-            if (m_ShowObjectMenu || m_ShowOptionsModal||m_ShowObjectMenuZone)
+            if (m_ShowObjectMenu || m_ShowOptionsModal|| m_ShowOptionsModalBagua || m_ShowOptionsModalObject || m_ShowObjectMenuZone)
             {
                 if (!m_IsPointerOverUI && (m_TapStartPositionInput.TryReadValue(out _) || m_DragCurrentPositionInput.TryReadValue(out _)))
                 {
@@ -380,6 +401,9 @@ namespace UnityEngine.XR.Templates.AR
 
                     if (m_ShowOptionsModalBagua)
                         m_ModalMenuBagua.SetActive(false);
+
+                    if (m_ShowOptionsModalObject)
+                        m_ModalMenuObject.SetActive(false);
                 }
 
                 if (m_ShowObjectMenu)
@@ -397,9 +421,10 @@ namespace UnityEngine.XR.Templates.AR
             {
                 //se non vengono visualizzati i menù resettiamo lo stato di isPointerOverUI e mostriamo i bottoni
                 
-                m_CreateButton.gameObject.SetActive(true);
+                m_ButtonObject.gameObject.SetActive(true);
                 m_ButtonZone.gameObject.SetActive(true);
                 m_OptionsButtonBagua.gameObject.SetActive(true);
+                m_OptionsButtonObject.gameObject.SetActive(true);
                 m_DeleteButton.gameObject.SetActive(m_InteractionGroup?.focusInteractable != null);
             }
 
@@ -492,6 +517,20 @@ namespace UnityEngine.XR.Templates.AR
             }
         }
 
+        public void ShowHideModalObject()
+        {
+            if (m_ModalMenuObject.activeSelf)
+            {
+                m_ShowOptionsModalObject = false;
+                m_ModalMenuObject.SetActive(false);
+            }
+            else
+            {
+                m_ShowOptionsModalObject = true;
+                m_ModalMenuObject.SetActive(true);
+            }
+        }
+
         /// <summary>
         /// Shows or hides the plane debug visuals.
         /// </summary>
@@ -581,13 +620,14 @@ namespace UnityEngine.XR.Templates.AR
         }
 
         
-
+       
         public void HideMenuZone()
         {
             m_ObjectMenuAnimatorZone.SetBool("Show", false);
             m_ShowObjectMenuZone = false;
             AdjustARDebugMenuPosition();
         }
+       
         void ChangePlaneVisibility(bool setVisible)
         {
             foreach (var plane in m_ARPlanes)
@@ -618,7 +658,7 @@ namespace UnityEngine.XR.Templates.AR
 
         void InitializeDebugMenuOffsets()
         {
-            if (m_CreateButton.TryGetComponent<RectTransform>(out var buttonRect))
+            if (m_ButtonZone.TryGetComponent<RectTransform>(out var buttonRect))
                 m_ObjectButtonOffset = new Vector2(0f, buttonRect.anchoredPosition.y + buttonRect.rect.height + 10f);
             else
                 m_ObjectButtonOffset = new Vector2(0f, 200f);

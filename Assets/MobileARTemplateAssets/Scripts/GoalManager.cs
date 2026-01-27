@@ -146,26 +146,34 @@ namespace UnityEngine.XR.Templates.AR
             set => m_OptionsButton = value;
         }
 
-        [Tooltip("The Create Button to enable once the greeting prompt is dismissed.")]
-        [SerializeField]
-        private GameObject m_CreateButton;
 
+        [SerializeField]
+        public GameObject m_OptionObjectButton;
+
+        public GameObject optionObjectButton
+        {
+            get => m_OptionObjectButton;
+            set => m_OptionObjectButton = value;
+        }
         [SerializeField]
         private GameObject m_Buttonzone;
 
+        [SerializeField]
+        private GameObject m_ButtonObjectUser;
 
-       
+        public GameObject buttonObjectUser
+        {
+            get => m_ButtonObjectUser;
+            set => m_ButtonObjectUser = value;
+        }
+
 
         [SerializeField]
         private GameObject m_OptionsBaguaButton;
         /// <summary>
         /// The Create Button to enable once the greeting prompt is dismissed.
         /// </summary>
-        public GameObject createButton
-        {
-            get => m_CreateButton;
-            set => m_CreateButton = value;
-        }
+      
 
         public GameObject buttonzone
         {
@@ -209,10 +217,12 @@ namespace UnityEngine.XR.Templates.AR
             {
                menuManager.enabled = false;
             }
-            m_CreateButton.SetActive(false);
+            m_ButtonObjectUser.SetActive(false);
             m_Buttonzone.SetActive(false);
            
             m_OptionsBaguaButton.SetActive(false);
+
+            m_OptionObjectButton.SetActive(false);
         }
 
         void Update()
@@ -341,9 +351,11 @@ namespace UnityEngine.XR.Templates.AR
 
             m_GreetingPrompt.SetActive(false);
             m_OptionsButton.SetActive(true);
-            m_CreateButton.SetActive(true);
+           
+            m_ButtonObjectUser.SetActive(true);
             m_Buttonzone.SetActive(true);
             m_OptionsBaguaButton.SetActive(true);
+            m_OptionObjectButton.SetActive(true);
             m_MenuManager.enabled = true;
 
             for (int i = startingStep; i < m_StepList.Count; i++)
