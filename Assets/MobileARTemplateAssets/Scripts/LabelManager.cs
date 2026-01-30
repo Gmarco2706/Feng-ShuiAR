@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.XR.Templates.AR; // per ObjectSpawner event
+using UnityEngine.XR.Templates.AR; 
 
 public class LabelManager : MonoBehaviour
 {
@@ -54,7 +54,7 @@ public class LabelManager : MonoBehaviour
 
     void OnObjectSpawned(GameObject spawned)
     {
-        // filtro: applico solo se la selezione corrente è il prefab generico custom
+        //filtro per prendere la label selezionata e non sbagliarsi 
         if (selectedPrefab != etichettaGenericaMondoPrefab)
             return;
 

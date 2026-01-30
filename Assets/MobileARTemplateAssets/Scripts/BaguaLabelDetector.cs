@@ -1,45 +1,52 @@
-﻿using NUnit.Framework;
-using System.Collections;
-using UnityEngine;
-using System.Collections.Generic;
+﻿using UnityEngine;
 using TMPro;
+using System;
 
-namespace Assets.MobileARTemplateAssets.Scripts
+public class BaguaLabelDetector : MonoBehaviour
 {
-    public class BaguaLabelDetector : MonoBehaviour
+    public bool IsCorrectPlacement {get; private set;} 
+    public BaguaZone? CurrentZone {get; private set;}
+    public event Action<bool, BaguaZone> OnPlacementChanged;
+    BaguaClassComponent classComp;
+    void Awake()
     {
-        
-        private GameObject etichettaCorrente = null;
-        //metodo chiamato quando l'oggetto con questo script(prefab etichetta) entra in collisione con un altro collider
-        public void OnTriggerEnter(Collider other)
+        classComp = GetComponent<BaguaClassComponent>();
+        if(classComp == null)
         {
-            BaguaCellData cellData = other.GetComponent<BaguaCellData>();
-            if (cellData != null)
-            {
-                Debug.Log(" entrato nella zona: " + cellData.zoneName);
+            Debug.LogError("BaguaClassComponent non trovato sul GameObject.");
+        }
+    } 
+    void OnTriggerEnter(Collider other)
+    {
+        var cellData = other.GetComponent<BaguaCellData>();
+        if (cellData == null) return;
 
+        //aggiornamento stato
+        CurrentZone = cellData.zone;
+        Debug.Log($"{name}" + $"entrato in zona {CurrentZone}");
 
-                //in base al collider aggiunto sul prefab dell'etichetta,salvo l'oggetto etichettaCorrente
-                etichettaCorrente = this.gameObject;
+        if (classComp == null)
+        {
+            IsCorrectPlacement = false;
+            return;
+        }
 
-                TextMeshProUGUI Text = etichettaCorrente.GetComponentInChildren<TextMeshProUGUI>();
-                if (Text != null)
-                {
-                    Text.color = Color.green;
-                    Text.text = "zona:" + cellData.zoneName;
-                }
-                print("l'etichetta " + Text + " è entrata nella zona: " + cellData.zoneName);
+        IsCorrectPlacement = (classComp.ClasseZona == cellData.zone);
 
+        Debug.Log($"{name} in zona {cellData.zone}. Match: {IsCorrectPlacement}");
 
+        
+    }
+    void OnTriggerExit(Collider other)
+    {
+        var cellData = other.GetComponent<BaguaCellData>();
+        if (cellData != null) return;
 
-                //Debug.Log("l'etichetta " + Text + " è entrata nella zona: " + cellData.zoneName);   
-
-
-
-            }else 
-                {
-                Debug.Log("L'oggetto non ha il componente BaguaCellData.");
-            }
+        //reset dell'etichetta
+        if (CurrentZone.HasValue && cellData.zone == CurrentZone.Value)
+        {
+            CurrentZone = null;
+            IsCorrectPlacement = false;
         }
     }
 }

@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: -311446813666749250}
   - component: {fileID: 4945547562339206008}
   - component: {fileID: 5510451920421180510}
+  - component: {fileID: 237509552304334693}
   m_Layer: 0
   m_Name: Etichetta_Specchio
   m_TagString: Untagged
@@ -390,3 +391,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb1281d2833d54b854034cdf139410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.MobileARTemplateAssets.Scripts.BaguaLabelDetector
+--- !u!114 &237509552304334693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6343373116843642627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5981f0acb444b4bfaaa872a47a7c544a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BaguaClassComponent
+  classeZona: 7

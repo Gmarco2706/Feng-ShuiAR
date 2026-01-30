@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: -288972510395202963}
   - component: {fileID: -6774536582527094415}
   - component: {fileID: -2676414159740490232}
+  - component: {fileID: 3579922084092305640}
   m_Layer: 0
   m_Name: Etichetta_Libri
   m_TagString: Untagged
@@ -314,6 +315,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb1281d2833d54b854034cdf139410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.MobileARTemplateAssets.Scripts.BaguaLabelDetector
+--- !u!114 &3579922084092305640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6438054230519803864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5981f0acb444b4bfaaa872a47a7c544a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BaguaClassComponent
+  classeZona: 8
 --- !u!1 &6617749341723726259
 GameObject:
   m_ObjectHideFlags: 0

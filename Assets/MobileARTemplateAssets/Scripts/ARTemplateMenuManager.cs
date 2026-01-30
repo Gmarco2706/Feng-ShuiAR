@@ -3,6 +3,8 @@ using UnityEditor;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.Templates.AR;
+using Assets.MobileARTemplateAssets.Scripts;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
@@ -419,7 +421,7 @@ namespace UnityEngine.XR.Templates.AR
             }
             else
             {
-                //se non vengono visualizzati i menù resettiamo lo stato di isPointerOverUI e mostriamo i bottoni
+                //se non vengono visualizzati i menï¿½ resettiamo lo stato di isPointerOverUI e mostriamo i bottoni
                 
                 m_ButtonObject.gameObject.SetActive(true);
                 m_ButtonZone.gameObject.SetActive(true);
