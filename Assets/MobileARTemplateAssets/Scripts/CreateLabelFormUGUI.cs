@@ -12,7 +12,7 @@ public class CreateLabelFormUGUI : MonoBehaviour
     [SerializeField] TMP_Dropdown classDropdown;
     [SerializeField] Button confirmButton;
     [SerializeField] Button cancelButton;
-
+    
 
     public event Action<string, BaguaZone> OnConfirm;
 
@@ -24,11 +24,12 @@ public class CreateLabelFormUGUI : MonoBehaviour
 
         confirmButton.onClick.AddListener(Confirm);
         cancelButton.onClick.AddListener(Close);
-
+        
         nameInput.onValueChanged.AddListener(_ => Refresh());
     }
     void OnEnable()
     {
+      
         nameInput.text = "";
         classDropdown.value = 0;
         Refresh();

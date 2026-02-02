@@ -147,6 +147,7 @@ namespace UnityEngine.XR.Templates.AR
         }
 
 
+
         [SerializeField]
         public GameObject m_OptionObjectButton;
 
@@ -181,8 +182,14 @@ namespace UnityEngine.XR.Templates.AR
             set => m_Buttonzone = value;
         }
 
-        
 
+        [SerializeField]
+        private GameObject m_ButtonScore;
+        public GameObject buttonScore
+        {
+            get => m_ButtonScore;
+            set => m_ButtonScore = value;
+        }
         public GameObject optionsBaguaButton
         {
             get => m_OptionsBaguaButton;
@@ -223,6 +230,7 @@ namespace UnityEngine.XR.Templates.AR
             m_OptionsBaguaButton.SetActive(false);
 
             m_OptionObjectButton.SetActive(false);
+            m_ButtonScore.SetActive(false);
         }
 
         void Update()
@@ -356,6 +364,7 @@ namespace UnityEngine.XR.Templates.AR
             m_Buttonzone.SetActive(true);
             m_OptionsBaguaButton.SetActive(true);
             m_OptionObjectButton.SetActive(true);
+            m_ButtonScore.SetActive(true);
             m_MenuManager.enabled = true;
 
             for (int i = startingStep; i < m_StepList.Count; i++)

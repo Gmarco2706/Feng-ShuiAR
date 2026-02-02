@@ -40,9 +40,12 @@ public class LabelMenuItem : MonoBehaviour
         if (labelManager != null)
             labelManager.SelectCustomLabel(nomeSalvato, classeSalvata, prefabMondo);
 
+        
         //indica allo spawner che tipo di prefab usare
         if (arMenuManager == null || arMenuManager.ObjectSpawner == null)
             return;
+
+       
 
         var spawner = arMenuManager.ObjectSpawner;
         if (spawner.objectPrefabs == null || spawner.objectPrefabs.Count == 0)

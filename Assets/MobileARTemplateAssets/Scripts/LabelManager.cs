@@ -82,5 +82,6 @@ public class LabelManager : MonoBehaviour
         {
             Debug.LogError("LabelMenuItem mancante sul prefab");
         }
+        
     }
 }
