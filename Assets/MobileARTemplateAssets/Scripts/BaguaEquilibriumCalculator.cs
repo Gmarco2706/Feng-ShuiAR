@@ -123,7 +123,7 @@ public class BaguaEquilibriumCalculator : MonoBehaviour
             ? 0f
             : 100f * (M / (M + mismatchPenaltyK * (float)MM));
 
-        string msg = $"Equilibrio: {equilibrio:0.#}% (Match={M}, Mismatch={MM}, k={mismatchPenaltyK})";
+        string msg = $"Equilibrio:{equilibrio:0.#}%";
         Debug.Log(msg, this);
 
         if (outputText != null)

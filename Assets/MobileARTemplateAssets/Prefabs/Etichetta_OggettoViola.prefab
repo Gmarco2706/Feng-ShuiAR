@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 126837690697665637}
   - component: {fileID: 985493540276258603}
   - component: {fileID: -648493887609529042}
+  - component: {fileID: -392746690984262437}
   m_Layer: 0
   m_Name: Etichetta_OggettoViola
   m_TagString: Untagged
@@ -178,6 +179,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb1281d2833d54b854034cdf139410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.MobileARTemplateAssets.Scripts.BaguaLabelDetector
+--- !u!114 &-392746690984262437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151245740660818871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5981f0acb444b4bfaaa872a47a7c544a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BaguaClassComponent
+  classeZona: 2
 --- !u!1 &5677538405310929631
 GameObject:
   m_ObjectHideFlags: 0
