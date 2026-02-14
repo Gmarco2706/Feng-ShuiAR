@@ -8,6 +8,7 @@ using Assets.MobileARTemplateAssets.Scripts;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Readers;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
+using TMPro;
 
 namespace UnityEngine.XR.Templates.AR
 {
@@ -187,6 +188,14 @@ namespace UnityEngine.XR.Templates.AR
         }
 
         [SerializeField]
+        public GameObject m_ScoreWindow;
+        public GameObject ScoreWindow
+        {
+            get => m_ScoreWindow;
+            set => m_ScoreWindow = value;
+        }
+
+        [SerializeField]
         [Tooltip("The interaction group for the AR demo scene.")]
         XRInteractionGroup m_InteractionGroup;
 
@@ -314,7 +323,7 @@ namespace UnityEngine.XR.Templates.AR
         bool m_ShowOptionsModal;
         bool m_ShowOptionsModalBagua;
         bool m_ShowOptionsModalObject;
-
+        bool m_ShowScoreWindow;
         bool m_VisualizePlanes = true;
         bool m_VisualizeBagua = false;
         bool m_ShowDebugMenu;
@@ -388,7 +397,7 @@ namespace UnityEngine.XR.Templates.AR
                 m_InitializingDebugMenu = false;
             }
 
-            if (m_ShowObjectMenu || m_ShowOptionsModal|| m_ShowOptionsModalBagua || m_ShowOptionsModalObject || m_ShowObjectMenuZone)
+            if (m_ShowObjectMenu || m_ShowOptionsModal|| m_ShowOptionsModalBagua || m_ShowOptionsModalObject || m_ShowObjectMenuZone||m_ShowScoreWindow)
             {
                 if (!m_IsPointerOverUI && (m_TapStartPositionInput.TryReadValue(out _) || m_DragCurrentPositionInput.TryReadValue(out _)))
                 {
@@ -406,6 +415,9 @@ namespace UnityEngine.XR.Templates.AR
 
                     if (m_ShowOptionsModalObject)
                         m_ModalMenuObject.SetActive(false);
+
+                    if (m_ShowScoreWindow)
+                        m_ScoreWindow.SetActive(false);
                 }
 
                 if (m_ShowObjectMenu)
@@ -485,8 +497,28 @@ namespace UnityEngine.XR.Templates.AR
 
         }
 
+        public void ShowWindowScore()
+        {
+            if (m_ScoreWindow.activeSelf)
+            {
+                m_ShowScoreWindow = false;
+                m_ScoreWindow.SetActive(false);
+            }
+            else
+            {
+                m_ShowScoreWindow = true;
+                m_ScoreWindow.SetActive(true);
+            }
+        }
        
-        
+        public void CancelScore()
+        {
+            TextMeshProUGUI scoreText = m_ScoreWindow.GetComponentInChildren<TextMeshProUGUI>();
+            if (m_ShowScoreWindow==false | scoreText != null)
+            {
+                scoreText.text = "Equilibrio: 0";
+            }
+        }
         /// <summary>
         /// Shows or hides the menu modal when the options button is clicked.
         /// </summary>
