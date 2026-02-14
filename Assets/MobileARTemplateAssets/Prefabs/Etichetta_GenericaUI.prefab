@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 4428562548377190979}
   - component: {fileID: 3497851183728515946}
   - component: {fileID: 9195357393491385535}
+  - component: {fileID: 3487804795699245265}
   m_Layer: 5
   m_Name: Etichetta_GenericaUI
   m_TagString: Untagged
@@ -349,6 +350,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LabelMenuItem
   nomeText: {fileID: 5209436824724358695}
   arMenuManager: {fileID: 0}
+--- !u!114 &3487804795699245265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6607891018716117991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f5fc4965003478e8aa22c512d67224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit.Samples.StarterAssets::DraggableRotatable
 --- !u!1 &8867398647252725347
 GameObject:
   m_ObjectHideFlags: 0

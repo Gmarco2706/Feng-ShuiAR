@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 7354560830307484046}
   - component: {fileID: 328975913712178893}
   - component: {fileID: 8196466259620763052}
+  - component: {fileID: 2632901568551263790}
   m_Layer: 0
   m_Name: Etichetta_Generica
   m_TagString: Untagged
@@ -302,7 +303,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &6350963798226877837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,3 +420,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldLabel
   text3D: {fileID: 9012156732641732019}
   baguaClass: {fileID: 328975913712178893}
+--- !u!114 &2632901568551263790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7641055011755562554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f5fc4965003478e8aa22c512d67224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit.Samples.StarterAssets::DraggableRotatable
