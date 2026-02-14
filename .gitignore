@@ -102,3 +102,5 @@ InitTestScene*.unity*
 # Queste cartelle erano "untracked" nel tuo status precedente
 *_BackUpThisFolder_ButDontShipItWithYourGame/
 *_BurstDebugInformation_DoNotShip/.unity*
+
+*.slnx
