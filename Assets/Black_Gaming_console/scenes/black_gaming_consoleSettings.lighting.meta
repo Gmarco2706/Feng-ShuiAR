@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5267e9e1096f01a44b53e9097f8fb7e8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 52368
+  packageName: Black Gaming Console
+  packageVersion: 1.2
+  assetPath: Assets/Black_Gaming_console/scenes/black_gaming_consoleSettings.lighting
+  uploadId: 618083

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3799682f96799574981e36261e66d409
+timeCreated: 1450710529
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 52368
+  packageName: Black Gaming Console
+  packageVersion: 1.2
+  assetPath: Assets/Black_Gaming_console/Materials/black_gaming_console.mat
+  uploadId: 618083
